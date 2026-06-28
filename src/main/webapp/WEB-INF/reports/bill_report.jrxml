@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Jasper Reports Template: Bill Receipt -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="bill_report" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20">
+
+    <!-- Parameters passed from ReportService -->
+    <parameter name="BILL_NO"           class="java.lang.String"/>
+    <parameter name="PATIENT_NAME"      class="java.lang.String"/>
+    <parameter name="PATIENT_CODE"      class="java.lang.String"/>
+    <parameter name="TOTAL_AMOUNT"      class="java.lang.Double"/>
+    <parameter name="BILL_STATUS"       class="java.lang.String"/>
+    <parameter name="CONSULTATION_FEE"  class="java.lang.Double"/>
+    <parameter name="LAB_CHARGES"       class="java.lang.Double"/>
+    <parameter name="MEDICINE_CHARGES"  class="java.lang.Double"/>
+    <parameter name="OTHER_CHARGES"     class="java.lang.Double"/>
+    <parameter name="DISCOUNT"          class="java.lang.Double"/>
+
+    <title>
+        <band height="120">
+            <!-- Hospital Header -->
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[CITY GENERAL HOSPITAL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="30" width="555" height="15"/>
+                <textElement textAlignment="Center"><font size="10"/></textElement>
+                <text><![CDATA[123 Medical Center Road, Hyderabad - 500001 | Tel: 040-12345678]]></text>
+            </staticText>
+            <line><reportElement x="0" y="50" width="555" height="1"/></line>
+            <!-- Bill Title -->
+            <staticText>
+                <reportElement x="0" y="55" width="555" height="20"/>
+                <textElement textAlignment="Center"><font size="14" isBold="true"/></textElement>
+                <text><![CDATA[BILL RECEIPT]]></text>
+            </staticText>
+            <!-- Bill No -->
+            <textField>
+                <reportElement x="0" y="80" width="277" height="15"/>
+                <textElement><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["Bill No: " + $P{BILL_NO}]]></textFieldExpression>
+            </textField>
+            <!-- Status -->
+            <textField>
+                <reportElement x="277" y="80" width="278" height="15"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["Status: " + $P{BILL_STATUS}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <detail>
+        <band height="220">
+            <!-- Patient Info -->
+            <textField>
+                <reportElement x="0" y="5" width="555" height="15"/>
+                <textElement><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA["Patient: " + $P{PATIENT_NAME} + "  (Code: " + $P{PATIENT_CODE} + ")"]]></textFieldExpression>
+            </textField>
+
+            <!-- Charges Table Header -->
+            <rectangle><reportElement x="0" y="30" width="555" height="20" backcolor="#1565C0"/></rectangle>
+            <staticText>
+                <reportElement x="5" y="32" width="400" height="16" forecolor="#FFFFFF"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Description]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="405" y="32" width="145" height="16" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right"><font isBold="true"/></textElement>
+                <text><![CDATA[Amount (INR)]]></text>
+            </staticText>
+
+            <!-- Consultation Fee -->
+            <staticText>
+                <reportElement x="5" y="55" width="400" height="15"/>
+                <text><![CDATA[Consultation Fee]]></text>
+            </staticText>
+            <textField pattern="###,##0.00">
+                <reportElement x="405" y="55" width="145" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$P{CONSULTATION_FEE}]]></textFieldExpression>
+            </textField>
+
+            <!-- Lab Charges -->
+            <staticText>
+                <reportElement x="5" y="75" width="400" height="15"/>
+                <text><![CDATA[Laboratory Charges]]></text>
+            </staticText>
+            <textField pattern="###,##0.00">
+                <reportElement x="405" y="75" width="145" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$P{LAB_CHARGES}]]></textFieldExpression>
+            </textField>
+
+            <!-- Medicine Charges -->
+            <staticText>
+                <reportElement x="5" y="95" width="400" height="15"/>
+                <text><![CDATA[Medicine Charges]]></text>
+            </staticText>
+            <textField pattern="###,##0.00">
+                <reportElement x="405" y="95" width="145" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$P{MEDICINE_CHARGES}]]></textFieldExpression>
+            </textField>
+
+            <!-- Other Charges -->
+            <staticText>
+                <reportElement x="5" y="115" width="400" height="15"/>
+                <text><![CDATA[Other Charges]]></text>
+            </staticText>
+            <textField pattern="###,##0.00">
+                <reportElement x="405" y="115" width="145" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$P{OTHER_CHARGES}]]></textFieldExpression>
+            </textField>
+
+            <!-- Discount -->
+            <staticText>
+                <reportElement x="5" y="135" width="400" height="15"/>
+                <text><![CDATA[Discount]]></text>
+            </staticText>
+            <textField pattern="- ###,##0.00">
+                <reportElement x="405" y="135" width="145" height="15"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$P{DISCOUNT}]]></textFieldExpression>
+            </textField>
+
+            <!-- Total -->
+            <line><reportElement x="0" y="155" width="555" height="1"/></line>
+            <staticText>
+                <reportElement x="5" y="160" width="400" height="20"/>
+                <textElement><font size="12" isBold="true"/></textElement>
+                <text><![CDATA[TOTAL AMOUNT]]></text>
+            </staticText>
+            <textField pattern="Rs. ###,##0.00">
+                <reportElement x="405" y="160" width="145" height="20"/>
+                <textElement textAlignment="Right"><font size="12" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{TOTAL_AMOUNT}]]></textFieldExpression>
+            </textField>
+            <line><reportElement x="0" y="185" width="555" height="1"/></line>
+
+            <!-- Footer Note -->
+            <staticText>
+                <reportElement x="0" y="195" width="555" height="20"/>
+                <textElement textAlignment="Center"><font size="9" isItalic="true"/></textElement>
+                <text><![CDATA[Thank you for choosing City General Hospital. Get well soon!]]></text>
+            </staticText>
+        </band>
+    </detail>
+</jasperReport>

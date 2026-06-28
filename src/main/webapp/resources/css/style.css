@@ -1,0 +1,134 @@
+/* =============================================
+   Hospital Management System - Stylesheet
+   ============================================= */
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+/* ---- Navbar ---- */
+.navbar-inverse {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    border-color: #0a3d91;
+    border-radius: 0;
+}
+.navbar-inverse .navbar-brand {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.navbar-inverse .navbar-brand:hover { color: #e3f2fd; }
+.navbar-inverse .navbar-nav > li > a {
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > .active > a {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+}
+
+/* ---- Main Content ---- */
+.main-content {
+    margin-top: 68px;
+    padding: 20px 15px;
+}
+
+.page-header-row {
+    margin-bottom: 18px;
+}
+.page-header-row h2 {
+    color: #1565c0;
+    font-weight: 600;
+    margin-top: 0;
+}
+.page-header-row h2 small { color: #777; }
+
+/* ---- Stat Cards ---- */
+.stat-card {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.stat-card .panel-body { padding: 20px 15px; }
+.stat-card .panel-footer {
+    background: rgba(0,0,0,0.1);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+.stat-card .panel-footer a { color: rgba(255,255,255,0.9); }
+.stat-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.9; }
+.stat-number { font-size: 40px; font-weight: 700; line-height: 1; }
+.stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+/* ---- Mini Stat Panels ---- */
+.stat-mini { margin-bottom: 15px; }
+.stat-mini .panel-body { padding: 12px 15px; display: flex; align-items: center; }
+.stat-mini-icon { font-size: 28px; margin-right: 12px; }
+.stat-mini-info { flex: 1; }
+.stat-mini-number { font-size: 24px; font-weight: 700; line-height: 1; }
+.stat-mini-label { font-size: 11px; text-transform: uppercase; color: #999; }
+
+/* ---- Tables ---- */
+.table > thead > tr > th {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    color: white;
+    border-color: #0d47a1 !important;
+    font-weight: 500;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.table-hover tbody tr:hover { background-color: #e8f4fd; }
+
+/* ---- Panels ---- */
+.panel {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+.panel-heading h4 { margin: 0; font-size: 15px; font-weight: 600; }
+
+/* ---- Buttons ---- */
+.btn-primary { background-color: #1565c0; border-color: #0d47a1; }
+.btn-primary:hover, .btn-primary:focus { background-color: #0d47a1; border-color: #0a3d91; }
+
+/* ---- Forms ---- */
+.form-control:focus {
+    border-color: #1565c0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px rgba(21,101,192,.4);
+}
+label { font-weight: 600; color: #555; }
+
+/* ---- Badges ---- */
+.badge-danger { background-color: #e53935; }
+.badge-success { background-color: #43a047; }
+.badge-warning { background-color: #fb8c00; }
+
+/* ---- Patient Avatar (View Page) ---- */
+.patient-avatar { margin: 20px 0; }
+
+/* ---- Detail Table ---- */
+.detail-table th { background-color: #f5f5f5; color: #555; font-weight: 600; }
+
+/* ---- Alert Auto-dismiss ---- */
+.alert-dismissible { border-radius: 4px; }
+
+/* ---- Nav Pills ---- */
+.nav-pills > li > a { color: #1565c0; border-radius: 4px; }
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover {
+    background-color: #1565c0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+    .stat-number { font-size: 28px; }
+    .stat-icon { font-size: 24px; }
+    .main-content { margin-top: 55px; padding: 10px 8px; }
+}
