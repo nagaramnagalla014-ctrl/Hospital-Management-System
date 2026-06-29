@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCare HMS — Hospital Management System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--bg:#080c14;--bg-alt:#0d1424;--card:rgba(255,255,255,0.035);--border:rgba(255,255,255,0.07);--text:#e2e8f0;--muted:#64748b;--blue:#4f8ef7;--purple:#8b5cf6;--cyan:#06d6c0;--green:#22d3a5;--red:#f43f5e;--yellow:#f59e0b}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+.demo-banner{background:rgba(245,158,11,0.15);border-bottom:1px solid rgba(245,158,11,0.3);color:#f59e0b;text-align:center;padding:8px 16px;font-size:13px;font-weight:500}
+.navbar{display:flex;align-items:center;gap:24px;padding:0 24px;height:60px;background:rgba(13,20,36,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.nav-brand{font-size:18px;font-weight:700;background:linear-gradient(135deg,#4f8ef7,#22d3a5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:4px}
+.nav-link{padding:6px 14px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.nav-link:hover,.nav-link.active{background:rgba(79,142,247,0.12);color:var(--blue)}
+.main{padding:24px;max-width:1400px;margin:0 auto}
+.tab{display:none}.tab.active{display:block}
+.page-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:700}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:center;gap:14px}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.si-blue{background:rgba(79,142,247,0.15);color:var(--blue)}.si-green{background:rgba(34,211,165,0.15);color:var(--green)}.si-purple{background:rgba(139,92,246,0.15);color:var(--purple)}.si-yellow{background:rgba(245,158,11,0.15);color:var(--yellow)}
+.stat-value{font-size:26px;font-weight:700;line-height:1}.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.card-header h2{font-size:15px;font-weight:600}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.b-green{background:rgba(34,211,165,0.15);color:var(--green);border:1px solid rgba(34,211,165,0.3)}
+.b-blue{background:rgba(79,142,247,0.15);color:var(--blue);border:1px solid rgba(79,142,247,0.3)}
+.b-yellow{background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid rgba(245,158,11,0.3)}
+.b-red{background:rgba(244,63,94,0.15);color:var(--red);border:1px solid rgba(244,63,94,0.3)}
+.section-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+.form-card{padding:20px;display:flex;flex-direction:column;gap:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.form-group input,.form-group select{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:opacity .2s}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}.btn-primary:hover{opacity:.85}
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.section-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.stats-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="demo-banner"><i class="fas fa-flask"></i> UI Demo — backend requires local setup (Java 8 · Spring MVC · Hibernate · Oracle · Apache Tomcat)</div>
+<nav class="navbar">
+  <div class="nav-brand"><i class="fas fa-hospital"></i> MediCare HMS</div>
+  <div class="nav-links">
+    <a class="nav-link active" onclick="showTab('dashboard',this)">Dashboard</a>
+    <a class="nav-link" onclick="showTab('patients',this)">Patients</a>
+    <a class="nav-link" onclick="showTab('appointments',this)">Appointments</a>
+    <a class="nav-link" onclick="showTab('billing',this)">Billing</a>
+  </div>
+</nav>
+<main class="main">
+  <div id="tab-dashboard" class="tab active">
+    <div class="page-header"><h1>Hospital Dashboard</h1></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon si-blue"><i class="fas fa-bed"></i></div><div><div class="stat-value">1,284</div><div class="stat-label">Total Patients</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-green"><i class="fas fa-user-doctor"></i></div><div><div class="stat-value">48</div><div class="stat-label">Doctors</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-purple"><i class="fas fa-calendar-check"></i></div><div><div class="stat-value">127</div><div class="stat-label">Today's Appointments</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-yellow"><i class="fas fa-flask"></i></div><div><div class="stat-value">34</div><div class="stat-label">Pending Lab Reports</div></div></div>
+    </div>
+    <div class="section-grid">
+      <div class="card">
+        <div class="card-header"><h2>Recent Appointments</h2></div>
+        <table><thead><tr><th>Patient</th><th>Doctor</th><th>Department</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Rajesh Kumar</td><td>Dr. Sharma</td><td>Cardiology</td><td>09:00 AM</td><td><span class="badge b-green">Completed</span></td></tr>
+          <tr><td>Priya Patel</td><td>Dr. Mehta</td><td>Gynaecology</td><td>09:30 AM</td><td><span class="badge b-green">Completed</span></td></tr>
+          <tr><td>Suresh Nair</td><td>Dr. Iyer</td><td>Orthopaedics</td><td>10:00 AM</td><td><span class="badge b-blue">In Progress</span></td></tr>
+          <tr><td>Anita Singh</td><td>Dr. Rao</td><td>Neurology</td><td>10:30 AM</td><td><span class="badge b-yellow">Waiting</span></td></tr>
+          <tr><td>Vikram Joshi</td><td>Dr. Sharma</td><td>Cardiology</td><td>11:00 AM</td><td><span class="badge b-yellow">Waiting</span></td></tr>
+          <tr><td>Deepa Reddy</td><td>Dr. Gupta</td><td>Paediatrics</td><td>11:30 AM</td><td><span class="badge b-yellow">Waiting</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>Department Occupancy</h2></div>
+        <table><thead><tr><th>Department</th><th>Beds</th><th>Occupied</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Cardiology</td><td>30</td><td>24</td><td><span class="badge b-yellow">80%</span></td></tr>
+          <tr><td>Orthopaedics</td><td>25</td><td>18</td><td><span class="badge b-green">72%</span></td></tr>
+          <tr><td>Paediatrics</td><td>20</td><td>12</td><td><span class="badge b-green">60%</span></td></tr>
+          <tr><td>Neurology</td><td>15</td><td>14</td><td><span class="badge b-red">93%</span></td></tr>
+          <tr><td>Gynaecology</td><td>20</td><td>11</td><td><span class="badge b-green">55%</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+  <div id="tab-patients" class="tab">
+    <div class="page-header"><h1>Patient Records</h1></div>
+    <div class="card">
+      <table><thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Department</th><th>Doctor</th><th>Admitted</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>P-1001</td><td>Rajesh Kumar</td><td>45</td><td>Male</td><td>Cardiology</td><td>Dr. Sharma</td><td>2024-01-10</td><td><span class="badge b-blue">Admitted</span></td></tr>
+        <tr><td>P-1002</td><td>Priya Patel</td><td>32</td><td>Female</td><td>Gynaecology</td><td>Dr. Mehta</td><td>2024-01-12</td><td><span class="badge b-blue">Admitted</span></td></tr>
+        <tr><td>P-1003</td><td>Suresh Nair</td><td>58</td><td>Male</td><td>Orthopaedics</td><td>Dr. Iyer</td><td>2024-01-08</td><td><span class="badge b-green">Discharged</span></td></tr>
+        <tr><td>P-1004</td><td>Anita Singh</td><td>41</td><td>Female</td><td>Neurology</td><td>Dr. Rao</td><td>2024-01-14</td><td><span class="badge b-blue">Admitted</span></td></tr>
+        <tr><td>P-1005</td><td>Vikram Joshi</td><td>67</td><td>Male</td><td>Cardiology</td><td>Dr. Sharma</td><td>2024-01-15</td><td><span class="badge b-yellow">OPD</span></td></tr>
+        <tr><td>P-1006</td><td>Deepa Reddy</td><td>28</td><td>Female</td><td>Paediatrics</td><td>Dr. Gupta</td><td>2024-01-15</td><td><span class="badge b-yellow">OPD</span></td></tr>
+        <tr><td>P-1007</td><td>Mohan Das</td><td>52</td><td>Male</td><td>Orthopaedics</td><td>Dr. Iyer</td><td>2024-01-09</td><td><span class="badge b-green">Discharged</span></td></tr>
+        <tr><td>P-1008</td><td>Kavita Sharma</td><td>35</td><td>Female</td><td>Neurology</td><td>Dr. Rao</td><td>2024-01-13</td><td><span class="badge b-blue">Admitted</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div id="tab-appointments" class="tab">
+    <div class="page-header"><h1>Book Appointment</h1></div>
+    <div class="section-grid">
+      <div class="card">
+        <div class="card-header"><h2>New Appointment</h2></div>
+        <div class="form-card">
+          <div class="form-row">
+            <div class="form-group"><label>Patient Name</label><input type="text" placeholder="Enter full name"></div>
+            <div class="form-group"><label>Age</label><input type="number" placeholder="Age"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Department</label><select><option>Cardiology</option><option>Orthopaedics</option><option>Neurology</option><option>Gynaecology</option><option>Paediatrics</option></select></div>
+            <div class="form-group"><label>Doctor</label><select><option>Dr. Sharma</option><option>Dr. Mehta</option><option>Dr. Iyer</option><option>Dr. Rao</option><option>Dr. Gupta</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date</label><input type="date"></div>
+            <div class="form-group"><label>Time Slot</label><select><option>09:00 AM</option><option>09:30 AM</option><option>10:00 AM</option><option>10:30 AM</option><option>11:00 AM</option></select></div>
+          </div>
+          <button class="btn btn-primary" onclick="alert('Appointment booked! (demo mode)')"><i class="fas fa-check"></i> Book Appointment</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>Doctor Availability</h2></div>
+        <table><thead><tr><th>Doctor</th><th>Department</th><th>Available</th><th>Slots Left</th></tr></thead>
+        <tbody>
+          <tr><td>Dr. Sharma</td><td>Cardiology</td><td><span class="badge b-green">Yes</span></td><td>3</td></tr>
+          <tr><td>Dr. Mehta</td><td>Gynaecology</td><td><span class="badge b-green">Yes</span></td><td>5</td></tr>
+          <tr><td>Dr. Iyer</td><td>Orthopaedics</td><td><span class="badge b-red">No</span></td><td>0</td></tr>
+          <tr><td>Dr. Rao</td><td>Neurology</td><td><span class="badge b-green">Yes</span></td><td>2</td></tr>
+          <tr><td>Dr. Gupta</td><td>Paediatrics</td><td><span class="badge b-green">Yes</span></td><td>4</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+  <div id="tab-billing" class="tab">
+    <div class="page-header"><h1>Billing & Payments</h1></div>
+    <div class="card">
+      <table><thead><tr><th>Bill ID</th><th>Patient</th><th>Services</th><th>Lab Charges</th><th>Medicine</th><th>Total</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>B-2001</td><td>Rajesh Kumar</td><td>₹4,500</td><td>₹1,200</td><td>₹850</td><td><strong>₹6,550</strong></td><td><span class="badge b-green">Paid</span></td></tr>
+        <tr><td>B-2002</td><td>Priya Patel</td><td>₹8,000</td><td>₹2,400</td><td>₹1,200</td><td><strong>₹11,600</strong></td><td><span class="badge b-yellow">Pending</span></td></tr>
+        <tr><td>B-2003</td><td>Suresh Nair</td><td>₹12,000</td><td>₹800</td><td>₹2,100</td><td><strong>₹14,900</strong></td><td><span class="badge b-green">Paid</span></td></tr>
+        <tr><td>B-2004</td><td>Anita Singh</td><td>₹6,500</td><td>₹3,200</td><td>₹980</td><td><strong>₹10,680</strong></td><td><span class="badge b-yellow">Pending</span></td></tr>
+        <tr><td>B-2005</td><td>Mohan Das</td><td>₹9,000</td><td>₹1,100</td><td>₹1,450</td><td><strong>₹11,550</strong></td><td><span class="badge b-green">Paid</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</main>
+<script>
+function showTab(tab,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
